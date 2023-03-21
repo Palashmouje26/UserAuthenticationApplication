@@ -72,6 +72,7 @@ namespace UserAuthenticationApplication
                 c.DocExpansion(DocExpansion.List);
             });
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

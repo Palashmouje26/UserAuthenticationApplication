@@ -13,13 +13,16 @@ namespace UserAuthenticationApplication.Repository.Login
         [Key]
         public int LoginId  { get; set;}
 
-       
+        public int UserId { get; set; }
+
         [ForeignKey("UserId")]
-        public string UserId { get; set;}
         public virtual UserRegistration UserRagistration { get; set; }
+
         public DateTime LoginHistory { get; set;}   
+
         public bool IsValidate { get; set;}
 
+       
 
     }
 }
