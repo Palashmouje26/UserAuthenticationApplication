@@ -48,6 +48,7 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
             var UserDetails = await _dataRepository.Where<DomainModel.Models.UserRegistration.UserRegistration>(x =>x.UserId >0 &&  x.IsDeletd).AsNoTracking().ToListAsync();
             return _mapper.Map<List<UserRegistration>, List<UserRagistrationDetail>>(UserDetails);
         }
+
         /// <summary>
         /// This Method is used for showing List of user with registerd details
         /// </summary>
@@ -58,6 +59,7 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
             var UserDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == UserId);
             return _mapper.Map<UserRagistrationDetail>(UserDetail);
         }
+
         /// <summary>
         /// Updating Email and Passwords
         /// </summary>
@@ -74,6 +76,7 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
             await _dataRepository.UpdateAsync(UserDetail);
             return _mapper.Map<UserRagistrationDetail>(UserDetail);
         }
+
         /// <summary>
         /// De_activate User through UserId
         /// </summary>

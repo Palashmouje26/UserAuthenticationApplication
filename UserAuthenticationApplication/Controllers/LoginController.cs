@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserAuthenticationApplication.DomainModel.Models.UserRegistration;
 using UserAuthenticationApplication.Repository.Login;
 
 namespace UserAuthenticationApplication.Web.Controllers
@@ -48,7 +46,16 @@ namespace UserAuthenticationApplication.Web.Controllers
             return Ok("Login Successfully");
         }
 
-
+        [HttpGet("GetUserSpecificDetails")]
+        public async Task<IActionResult> GetUserSpecificDetails(int userId)
+        {
+            var res = await _loginRepository.GetUserSpecificDetails(userId);
+            if (res != null)
+            {
+                return Ok(res);
+            }
+            else { return BadRequest(); }
+        }
         #endregion
     }
 }

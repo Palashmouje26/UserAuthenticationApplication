@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using UserAuthenticationApplication.DomainModel.Models.LoginDetails;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistration;
@@ -33,6 +31,22 @@ namespace UserAuthenticationApplication.Repository.Login
         public Task<List<UserRagistrationDetail>> GetAllUserAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<LoginDetail>> GetUserSpecificDetails(int userId)
+        {
+            //var response = await _dataRepository.FirstAsync<List<Login>>(x => x.UserId == userId);
+            //if (response != null)
+            //{
+            //    return _mapper.Map<LoginDetail>(response);
+            //}
+
+            var employeeDetails = await _dataRepository.Where<Login>(a => a.UserId == userId).AsNoTracking().ToListAsync();
+            return _mapper.Map<List<Login>, List<LoginDetail>>(employeeDetails);
+
+
+        
+
         }
 
         /// <summary>

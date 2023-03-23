@@ -15,6 +15,11 @@ namespace UserAuthenticationApplication.Repository.Login
         /// <returns>Fetch the details from the database</returns>
         Task<List<UserRagistrationDetail>> GetAllUserAsync();
 
+
+        Task<List<LoginDetail>> GetUserSpecificDetails(int userId);
+
+
+
         /// <summary>
         /// Add User 
         /// </summary>

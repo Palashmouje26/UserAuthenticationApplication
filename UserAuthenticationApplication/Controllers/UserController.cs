@@ -13,6 +13,8 @@ namespace UserAuthenticationApplication.Web.Controllers
     {
         #region private Member
         private readonly IUserRegistrationRepository _userRegistration;
+
+        public IUserRegistrationRepository Object { get; set; }
         #endregion
 
         #region Constructor
