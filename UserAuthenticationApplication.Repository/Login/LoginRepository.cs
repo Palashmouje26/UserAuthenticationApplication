@@ -56,11 +56,11 @@ namespace UserAuthenticationApplication.Repository.Login
             Login loginDetail = new Login();
             loginDetail.LoginHistory = DateTime.Now;
 
-            var UserDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(authUser => authUser.EmailId.Equals(emailId) && authUser.Password.Equals(passcode));
+            var userDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(authUser => authUser.EmailId.Equals(emailId) && authUser.Password.Equals(passcode));
 
-            if (UserDetail != null)
+            if (userDetail != null)
             {
-                loginDetail.UserId = UserDetail.UserId;
+                loginDetail.UserId = userDetail.UserId;
                 loginDetail.IsValidate = true;
             }
             else
@@ -73,6 +73,7 @@ namespace UserAuthenticationApplication.Repository.Login
             return _mapper.Map<LoginDetail>(loginDetail);
 
         }
+
         /// <summary>
         /// list show user login details and last login time
         /// </summary>
@@ -103,6 +104,7 @@ namespace UserAuthenticationApplication.Repository.Login
 
             }).ToList();
         }
+
         #region Private Method
         /// <summary>
         /// Method  create for getiing last login time

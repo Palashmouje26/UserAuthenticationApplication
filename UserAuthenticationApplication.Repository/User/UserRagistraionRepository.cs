@@ -45,8 +45,8 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
 
         public async Task<List<UserRagistrationDetail>> GetAllUserAsync()
         {
-            var UserDetails = await _dataRepository.Where<UserRegistration>(x => x.IsDeletd).AsNoTracking().ToListAsync();
-            return _mapper.Map<List<UserRegistration>, List<UserRagistrationDetail>>(UserDetails);
+            var userDetail = await _dataRepository.Where<UserRegistration>(x => x.IsDeletd).AsNoTracking().ToListAsync();
+            return _mapper.Map<List<UserRegistration>, List<UserRagistrationDetail>>(userDetail);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
         /// <returns>List of partucular employee with their Salary</returns>
         public async Task<UserRagistrationDetail> GetUserByIdAsync(int UserId)
         {
-            var UserDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == UserId);
-            return _mapper.Map<UserRagistrationDetail>(UserDetail);
+            var userDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == UserId);
+            return _mapper.Map<UserRagistrationDetail>(userDetail);
         }
 
         /// <summary>
@@ -67,14 +67,14 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
         /// <returns>updating User information</returns>
         public async Task<UserRagistrationDetail> UpdateUserAsync(UserRagistrationDetail User)
         {
-            var UserDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == User.UserId);
+            var userDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == User.UserId);
 
-            UserDetail.UserName = User.UserName;
-            UserDetail.EmailId = User.EmailId;
-            UserDetail.Password = User.Password;
+            userDetail.UserName = User.UserName;
+            userDetail.EmailId = User.EmailId;
+            userDetail.Password = User.Password;
 
-            await _dataRepository.UpdateAsync(UserDetail);
-            return _mapper.Map<UserRagistrationDetail>(UserDetail);
+            await _dataRepository.UpdateAsync(userDetail);
+            return _mapper.Map<UserRagistrationDetail>(userDetail);
         }
 
         /// <summary>
