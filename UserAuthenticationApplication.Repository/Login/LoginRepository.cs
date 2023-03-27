@@ -23,7 +23,7 @@ namespace UserAuthenticationApplication.Repository.Login
         private readonly IMapper _mapper;
         #endregion
 
-        #region Constructore
+        #region Constructor
         public LoginRepository(IDataRepository dataRepository, IMapper mapper)
         {
             _mapper = mapper;
@@ -32,20 +32,20 @@ namespace UserAuthenticationApplication.Repository.Login
         #endregion
 
         #region Public Methods
-        //public Task<List<UserRagistrationDetail>> GetAllUserAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+        /// <summary>
+        /// API to get All User details at a time
+        /// </summary>
+        /// <param name="userId">userId of the current user</param>
+        /// <returns>object return</returns>
         public async Task<List<LoginDetail>> GetUserSpecificDetailsAsync(int userId)
         {
-            var employeeDetails = await _dataRepository.Where<Login>(a => a.UserId == userId).AsNoTracking().ToListAsync();
-            return _mapper.Map<List<Login>, List<LoginDetail>>(employeeDetails);
+            var userDetails = await _dataRepository.Where<Login>(a => a.UserId == userId).AsNoTracking().ToListAsync();
+            return _mapper.Map<List<Login>, List<LoginDetail>>(userDetails);
 
         }
 
         /// <summary>
-        /// Checking User Validdate Or not If Valid Then store in data
+        /// Adding and Checking User Validdate Or not If Valid Then store in data
         /// </summary>
         /// <param name="emailId">Current User emailID</param>
         /// <param name="passcode">Current user Password</param>
@@ -73,11 +73,20 @@ namespace UserAuthenticationApplication.Repository.Login
             return _mapper.Map<LoginDetail>(loginDetail);
 
         }
+        /// <summary>
+        /// list show user login details and last login time
+        /// </summary>
+        /// <param name="userId"> userId is user for current user </param>
+        /// <returns>User List</returns>
         public async Task<UserHistory> GetUserCountAsync(int userId)
         {
-
             return await GetUserHistory(userId);
         }
+
+        /// <summary>
+        /// List to show all the users count of login and last lagin
+        /// </summary>
+        /// <returns>List return</returns>
         public async Task<List<UserHistory>> GetAllUserCountAsync()
         {
             var userList = await _dataRepository.GetAllAsync<UserRegistration>();
@@ -94,6 +103,13 @@ namespace UserAuthenticationApplication.Repository.Login
 
             }).ToList();
         }
+        #region Private Method
+        /// <summary>
+        /// Method  create for getiing last login time
+        /// </summary>
+        /// <param name="loginHistory"></param>
+        /// <param name="userId">userId for login history</param>
+        /// <returns> return object</returns>
         private DateTime? GetUserHistory(List<Login> loginHistory, int userId)
         {
             var loginDetail = loginHistory.Where(a => a.UserId == userId);
@@ -104,6 +120,13 @@ namespace UserAuthenticationApplication.Repository.Login
             }
             return lastSUccess.First().LoginHistory;
         }
+
+
+        /// <summary>
+        ///  Method  create for getiing login history 
+        /// </summary>
+        /// <param name="userId">userId for login history</param>
+        /// <returns> return object</returns>
         private async Task<UserHistory> GetUserHistory(int userId)
         {
             var userDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(authUser => authUser.UserId.Equals(userId));
@@ -119,6 +142,7 @@ namespace UserAuthenticationApplication.Repository.Login
 
             return userHistory;
         }
+        #endregion
 
         #endregion
     }

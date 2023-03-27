@@ -29,19 +29,13 @@ namespace UserAuthenticationApplication.Web.Controllers
         * @api {get} /api/userRagistration /:get all User information
         * @apiName GetUserRagistrationAsync
         * @apiGroup UserRagistration
-        *    
-        * @apiParam {Number} UserId id of the User.
         * 
         * @apiSuccess {String} UserName Username of the User.
         * 
-        * @apiSuccessExample Success-Response:
-        *     {
-        *       "firstname": "John",
-        *       "mobile : "7894561230"
-        *     }    
+        * @apiSuccessExample Success-Response:{object[]}   
         * @apiError UserNotFound The information of the User was not found.
         */
-        [HttpGet("GetUser")]
+        [HttpGet("getUser")]
         public async Task<IActionResult> GetUserRagistrationAsync()
         {
             return Ok(await _userRegistration.GetAllUserAsync());
@@ -51,18 +45,10 @@ namespace UserAuthenticationApplication.Web.Controllers
         * @apiName GetUserByIDAsync
         * @apiGroup UserRagistration
         *    
-        * @apiParam {Number} employeeID id of the User.
-        * 
-        * @apiSuccess {String}  Username of the User.
-        * 
-        * @apiSuccessExample Success-Response:
-        *     {
-        *       "firstname": "John",
-        *       "EmailId":Xyz@gmail.com"
-        *     }
+        * @apiParam {Number}  Id of the User.
         * @apiError UserNotFound The id of the UserId was not found.
         */
-        [HttpGet("GetUserByID/{Id}")]
+        [HttpGet("getuserbyId/{Id}")]
         public async Task<IActionResult> GetUserByIDAsync([FromRoute] int Id)
         {
             return Ok(await _userRegistration.GetUserByIdAsync(Id));
@@ -75,8 +61,14 @@ namespace UserAuthenticationApplication.Web.Controllers
         * @apiBody {String} PhoneNumber        Mandatory input 10 digit or number.
         * @apiBody {String} Password           Mandatory input 10 digit or number with combination with aplphabets.
         * @apiBody {bool} IsDeleted            User is Active or Not.
+       
+        * @apiSuccessExample Success-Response:
+        *  { 
+        *      firstname = "John",
+        *      Password =  "Xyz@123"
+        *  }
         */
-        [HttpPost("AddEmployee")]
+        [HttpPost("user")]
         public async Task<IActionResult> AddUserAsync([FromForm] UserRagistrationDetail user)
         {
             var result = await _userRegistration.AddUserAsync(user);
@@ -96,14 +88,9 @@ namespace UserAuthenticationApplication.Web.Controllers
          * @apiParam {String} UserName  UserName of the User.
          * @apiParam {String} Password  Password of the User.
          *
-         * @apiSuccessExample Success-Response:
-         *  { 
-         *      firstname = "John",
-         *      Password =  "Xyz@123"
-         *  }
          * @apiUse EmployeeIDNotFoundError
          */
-        [HttpPut("UpdateEmployee")]
+        [HttpPut("userupdate")]
         public async Task<ActionResult> UpdateEmployeeAsync([FromForm] UserRagistrationDetail user)
         {
             if (user.UserId != user.UserId)
@@ -125,7 +112,7 @@ namespace UserAuthenticationApplication.Web.Controllers
         *      UserId = 1
         *  }
         */
-        [HttpPut("RemoveSoftDeleteById/{Id}")]
+        [HttpPut("removeuser/{Id}")]
         public async Task<ActionResult> RemoveSoftdeleteAsync(int Id)
         {
             await _userRegistration.RemoveSoftdeleteAsync(Id);

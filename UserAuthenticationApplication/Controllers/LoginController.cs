@@ -27,8 +27,13 @@ namespace UserAuthenticationApplication.Web.Controllers
       * @apiBody {String} EmailId     Mandatory  input with small letter"pa".
       * @apiBody {String} Password    Mandatory input 10 digit or number with combination with aplphabets.
       * @apiBody {bool} IsDeleted     User is Active or Not.
+      * @apiSuccessExample Success-Response:
+        *  { 
+        *      login = "Xyz@ghk.com",
+        *      Password =  "Xyz@123"
+        *  }
       */
-        [HttpPost("AddUserLogin")]
+        [HttpPost("adduserlogin")]
         public async Task<IActionResult> AddLoginByNameAsync(string emailId, string passcode)
         {
             var result = await _loginRepository.AddloginUserAsync(emailId, passcode);
@@ -39,25 +44,50 @@ namespace UserAuthenticationApplication.Web.Controllers
             }
             return Ok("Login Successfully");
         }
-
-        [HttpGet("GetUserSpecificDetails")]
+        /**
+       * @api {get} /api/Login /:id get one particuler User login information
+       * @apiName GetUserSpecificDetailsAsync
+       * @apiGroup Login
+       *    
+       * @apiParam {Number}  Id of the User.
+       * @apiError UserNotFound The id of the UserId was not found.
+       */
+        [HttpGet("getuserspecificdetails")]
         public async Task<IActionResult> GetUserSpecificDetailsAsync(int userId)
         {
-            var res = await _loginRepository.GetUserSpecificDetailsAsync (userId);
-            if (res != null)
+            var response = await _loginRepository.GetUserSpecificDetailsAsync (userId);
+            if (response != null)
             {
-                return Ok(res);
+                return Ok(response);
             }
-            else { return BadRequest(); }
+            else 
+            {
+                return BadRequest(); 
+            }
         }
-
-        [HttpGet("GetUserCountDetail")]
+        /**
+       * @api {get} /api/Login /:get One  User login information and count
+       * @apiName GetUserCountDetailAsync
+       * @apiGroup Login
+       *    
+       * @apiParam {Number}  Id of the User.
+       * @apiError UserNotFound The id of the UserId was not found.
+       */
+        [HttpGet("getusercountdetail")]
         public async Task<IActionResult> GetUserCountDetailAsync(int userId)
         {
             var response = await _loginRepository.GetUserCountAsync(userId);
             return Ok(response);
         }
-        [HttpGet("GetAllUserCountDetail")]
+        /**
+       * @api {get} /api/Login /:get all User information wth no of count
+       * @apiName GetAllUserCountDetail
+       * @apiGroup Login
+       *    
+       * @apiError UserNotFound .
+       */
+
+        [HttpGet("getallusercountdetail")]
         public async Task<IActionResult> GetAllUserCountDetail()
         {
             var response = await _loginRepository.GetAllUserCountAsync();

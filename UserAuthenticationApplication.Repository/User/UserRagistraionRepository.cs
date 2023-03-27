@@ -17,7 +17,7 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
         private readonly IMapper _mapper;
         #endregion
 
-        #region Constructore
+        #region Constructor
         public UserRagistraionRepository( IDataRepository dataRepository, IMapper mapper)
         {
             _dataRepository = dataRepository;
@@ -45,7 +45,7 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
 
         public async Task<List<UserRagistrationDetail>> GetAllUserAsync()
         {
-            var UserDetails = await _dataRepository.Where<DomainModel.Models.UserRegistration.UserRegistration>(x =>x.UserId >0 &&  x.IsDeletd).AsNoTracking().ToListAsync();
+            var UserDetails = await _dataRepository.Where<UserRegistration>(x => x.IsDeletd).AsNoTracking().ToListAsync();
             return _mapper.Map<List<UserRegistration>, List<UserRagistrationDetail>>(UserDetails);
         }
 
@@ -84,9 +84,9 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
         /// <returns></returns>
         public async Task RemoveSoftdeleteAsync(int UserId)
         {
-            var UserDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == UserId);
-            UserDetail.IsDeletd = false;
-            await _dataRepository.UpdateAsync(UserDetail);
+            var userDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == UserId);
+            userDetail.IsDeletd = true;
+            await _dataRepository.UpdateAsync(userDetail);
         }
         #endregion
     }
