@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace UserAuthenticationApplication.Repository.DataRepository
 {
@@ -43,8 +44,9 @@ namespace UserAuthenticationApplication.Repository.DataRepository
         /// </summary>
         /// <typeparam name="T">Model class to create DbSet.</typeparam>
         /// <returns>List of all the elements.</returns>
-        Task<List<T>> GetAllAsync<T>()
-            where T : class;
+        //task<list<t>> getallasync<t>(func<object, bool> value)
+        //    where t : class;
+        Task<List<T>> GetAllAsync<T>() where T : class;
 
         /// <summary>
         /// Adds entity to the DbSet.
@@ -146,6 +148,17 @@ namespace UserAuthenticationApplication.Repository.DataRepository
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <returns>Generic Entity</returns>
         Task<T> FirstAsync<T>(Expression<Func<T, bool>> predicate)
+            where T : class;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        Task<T> FindAsync<T>(Expression<Func<T, bool>> predicate)
+            where T : class;
+
+        Task<int> CountAsync<T>(Expression<Func<T, bool>> predicate)
             where T : class;
     }
 }

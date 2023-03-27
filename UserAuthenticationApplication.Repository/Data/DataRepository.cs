@@ -37,6 +37,19 @@ namespace UserAuthenticationApplication.Repository.DataRepository
             throw new NotImplementedException();
         }
 
+        public async Task<int> CountAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+        {
+            var dbSet = CreateDbSetAsync<T>();
+            return await dbSet.CountAsync(predicate);
+
+        }
+
+        public async Task<T> FindAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+        {
+            var dbSet = CreateDbSetAsync<T>();
+            return await dbSet.FindAsync(predicate);
+        }
+
         public async Task<T> FirstAsync<T>(Expression<Func<T, bool>> predicate) where T : class
         {
             var dbSet = CreateDbSetAsync<T>();
@@ -55,6 +68,14 @@ namespace UserAuthenticationApplication.Repository.DataRepository
             var values = await dbSet.ToListAsync<T>();
             return values;
         }
+
+        //public async Task<List<T>> GetAllAsync<T>(Func<object, bool> value) where T : class
+        //{
+        //    var dbSet = CreateDbSetAsync<T>();
+        //    var value=await dbSet.ToListAsync<T>();
+        //    return value;
+
+        //}
 
         public IDbContextTransaction GetTransaction()
         {

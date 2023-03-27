@@ -21,18 +21,12 @@ namespace UserAuthenticationApplication.Web.Controllers
         #endregion
 
         #region Public Methods
-        [HttpGet("GetUser")]
-        public async Task<IActionResult> GetLoginDetailAsync()
-        {
-            return Ok(await _loginRepository.GetAllUserAsync());
-
-        }
         /**
       * @api {post} /Login/
-      * @apiBody {String} UserId             Mandatory UserId of the .
-      * @apiBody {String} EmailId            Mandatory  input with small letter"pa".
-      * @apiBody {String} Password           Mandatory input 10 digit or number with combination with aplphabets.
-      * @apiBody {bool} IsDeleted            User is Active or Not.
+      * @apiBody {String} UserId      Mandatory UserId of the .
+      * @apiBody {String} EmailId     Mandatory  input with small letter"pa".
+      * @apiBody {String} Password    Mandatory input 10 digit or number with combination with aplphabets.
+      * @apiBody {bool} IsDeleted     User is Active or Not.
       */
         [HttpPost("AddUserLogin")]
         public async Task<IActionResult> AddLoginByNameAsync(string emailId, string passcode)
@@ -47,15 +41,29 @@ namespace UserAuthenticationApplication.Web.Controllers
         }
 
         [HttpGet("GetUserSpecificDetails")]
-        public async Task<IActionResult> GetUserSpecificDetails(int userId)
+        public async Task<IActionResult> GetUserSpecificDetailsAsync(int userId)
         {
-            var res = await _loginRepository.GetUserSpecificDetails(userId);
+            var res = await _loginRepository.GetUserSpecificDetailsAsync (userId);
             if (res != null)
             {
                 return Ok(res);
             }
             else { return BadRequest(); }
         }
+
+        [HttpGet("GetUserCountDetail")]
+        public async Task<IActionResult> GetUserCountDetailAsync(int userId)
+        {
+            var response = await _loginRepository.GetUserCountAsync(userId);
+            return Ok(response);
+        }
+        [HttpGet("GetAllUserCountDetail")]
+        public async Task<IActionResult> GetAllUserCountDetail()
+        {
+            var response = await _loginRepository.GetAllUserCountAsync();
+            return Ok(response);
+        }
+
         #endregion
     }
 }

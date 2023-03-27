@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UserAuthenticationApplication.DomainModel.Models.LoginDetails;
+using UserAuthenticationApplication.DomainModel.Models.UserHistory;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistration;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail;
 using UserAuthenticationApplication.Repository.DataRepository;
@@ -28,24 +32,15 @@ namespace UserAuthenticationApplication.Repository.Login
         #endregion
 
         #region Public Methods
-        public Task<List<UserRagistrationDetail>> GetAllUserAsync()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<List<UserRagistrationDetail>> GetAllUserAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public async Task<List<LoginDetail>> GetUserSpecificDetails(int userId)
+        public async Task<List<LoginDetail>> GetUserSpecificDetailsAsync(int userId)
         {
-            //var response = await _dataRepository.FirstAsync<List<Login>>(x => x.UserId == userId);
-            //if (response != null)
-            //{
-            //    return _mapper.Map<LoginDetail>(response);
-            //}
-
             var employeeDetails = await _dataRepository.Where<Login>(a => a.UserId == userId).AsNoTracking().ToListAsync();
             return _mapper.Map<List<Login>, List<LoginDetail>>(employeeDetails);
-
-
-        
 
         }
 
@@ -75,10 +70,56 @@ namespace UserAuthenticationApplication.Repository.Login
                 loginDetail.IsValidate = false;
             }
             await _dataRepository.AddAsync(loginDetail);
-
             return _mapper.Map<LoginDetail>(loginDetail);
-            #endregion
+
+        }
+        public async Task<UserHistory> GetUserCountAsync(int userId)
+        {
+
+            return await GetUserHistory(userId);
+        }
+        public async Task<List<UserHistory>> GetAllUserCountAsync()
+        {
+            var userList = await _dataRepository.GetAllAsync<UserRegistration>();
+
+            var loginHistory = await _dataRepository.GetAllAsync<Login>();
+
+            return userList.Select(x => new UserHistory
+            {
+                UserId = x.UserId,
+                UserName = x.UserName,
+                countOfFailure = loginHistory.Where(a => a.UserId == x.UserId && !a.IsValidate).Count(),
+                countOfSuccess = loginHistory.Where(a => a.UserId == x.UserId && a.IsValidate).Count(),
+                LastSuccess = GetUserHistory(loginHistory, x.UserId),
+
+            }).ToList();
+        }
+        private DateTime? GetUserHistory(List<Login> loginHistory, int userId)
+        {
+            var loginDetail = loginHistory.Where(a => a.UserId == userId);
+            var lastSUccess = loginDetail.Where(a => a.IsValidate).OrderBy(a => a.LoginHistory);
+            if (lastSUccess.Count() == 0)
+            {
+                return null;
+            }
+            return lastSUccess.First().LoginHistory;
+        }
+        private async Task<UserHistory> GetUserHistory(int userId)
+        {
+            var userDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(authUser => authUser.UserId.Equals(userId));
+            var userLoginDetail = await _dataRepository.FirstOrDefaultAsync<Login>(authUser => authUser.UserId.Equals(userId));
+
+            UserHistory userHistory = new UserHistory();
+            var loginHistory = await _dataRepository.GetAllAsync<Login>();
+            userHistory.UserId = userDetail.UserId;
+            userHistory.UserName = userDetail.UserName;
+            userHistory.countOfSuccess = await _dataRepository.CountAsync<Login>(authUser => authUser.UserId == userId && authUser.IsValidate);
+            userHistory.countOfFailure = await _dataRepository.CountAsync<Login>(authUser => authUser.UserId == userId && !authUser.IsValidate);
+            userHistory.LastSuccess = GetUserHistory(loginHistory, userId);
+
+            return userHistory;
         }
 
+        #endregion
     }
 }

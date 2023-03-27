@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail;
 using UserAuthenticationApplication.Repository.DataRepository;
 using UserAuthenticationApplication.Repository.User;
-using UserAuthenticationApplication.Repository.UserRagistraionRepository;
 using UserAuthenticationApplication.Web.Controllers;
 using Xunit;
 
@@ -70,26 +67,6 @@ namespace UserAuthenticationApplication.Test
             Assert.NotNull(employee);
 
         }
-
-        //[Fact]
-
-        //public async Task Add()
-        //{
-            
-        //        //arrange
-        //        var productList = GetUserRagistraionsData();
-
-        //        _userRagistraionRepository.Setup(x => x.AddUserAsync(productList[2]))
-        //            .Returns(productList[2]);
-               
-
-        //        //act      
-
-        //}
-
-
-
-        
 
         private List<UserRagistrationDetail> GetUserRagistraionsData()
         {
