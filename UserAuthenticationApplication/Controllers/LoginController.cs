@@ -45,11 +45,11 @@ namespace UserAuthenticationApplication.Web.Controllers
             return Ok("Login Successfully");
         }
         /**
-       * @api {get} /api/Login /:id get one particuler User login information
-       * @apiName GetUserSpecificDetailsAsync
+       * @api {get} /api/LoginController/:Id get one particuler User login information.
+       * @apiName GetUserSpecificDetailsAsync.
        * @apiGroup Login
        *    
-       * @apiParam {Number}  Id of the User.
+       * @apiParam {Number}  userId of the User.
        * @apiError UserNotFound The id of the UserId was not found.
        */
         [HttpGet("getuserspecificdetails")]
@@ -66,9 +66,9 @@ namespace UserAuthenticationApplication.Web.Controllers
             }
         }
         /**
-       * @api {get} /api/Login /:get One  User login information and count
-       * @apiName GetUserCountDetailAsync
-       * @apiGroup Login
+       * @api {get} /api/LoginController /:get One  User login information and count
+       * @apiName GetUserCountDetailAsync.
+       * @apiGroup Login.
        *    
        * @apiParam {Number}  Id of the User.
        * @apiError UserNotFound The id of the UserId was not found.
@@ -80,13 +80,12 @@ namespace UserAuthenticationApplication.Web.Controllers
             return Ok(response);
         }
         /**
-       * @api {get} /api/Login /:get all User information wth no of count
-       * @apiName GetAllUserCountDetail
-       * @apiGroup Login
+       * @api {get} /api/LoginController /: All User information wth no. of count.
+       * @apiName GetAllUserCountDetail.
+       * @apiGroup Login.
        *    
        * @apiError UserNotFound .
        */
-
         [HttpGet("getallusercountdetail")]
         public async Task<IActionResult> GetAllUserCountDetail()
         {

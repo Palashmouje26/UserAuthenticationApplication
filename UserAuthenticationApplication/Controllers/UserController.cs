@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserAuthenticationApplication.Repository.UserRagistraionRepository;
 using UserAuthenticationApplication.Repository.User;
-using UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail;
+using UserAuthenticationApplication.DomainModel.ApplicationClass.DTO.UserRagistrationDTO;
 
 namespace UserAuthenticationApplication.Web.Controllers
 {
@@ -13,12 +13,10 @@ namespace UserAuthenticationApplication.Web.Controllers
     {
         #region private Member
         private readonly IUserRegistrationRepository _userRegistration;
-
-        public IUserRegistrationRepository Object { get; set; }
         #endregion
 
         #region Constructor
-        public UserController( IUserRegistrationRepository userRegistration)
+        public UserController(IUserRegistrationRepository userRegistration)
         {
             _userRegistration = userRegistration;
         }
@@ -26,9 +24,9 @@ namespace UserAuthenticationApplication.Web.Controllers
 
         #region Public Methods
         /**
-        * @api {get} /api/userRagistration /:get all User information
-        * @apiName GetUserRagistrationAsync
-        * @apiGroup UserRagistration
+        * @api {get} /api/UserController /:Get all User information.
+        * @apiName GetUserRagistrationAsync.
+        * @apiGroup UserRagistration.
         * 
         * @apiSuccess {String} UserName Username of the User.
         * 
@@ -41,12 +39,9 @@ namespace UserAuthenticationApplication.Web.Controllers
             return Ok(await _userRegistration.GetAllUserAsync());
         }
         /**
-        * @api {get} /api/UserRagistration /:id get one particuler User information
+        * @api {get} /api/UserController /:Id get one particuler User information.
         * @apiName GetUserByIDAsync
         * @apiGroup UserRagistration
-        *    
-        * @apiParam {Number}  Id of the User.
-        * @apiError UserNotFound The id of the UserId was not found.
         */
         [HttpGet("getuserbyId/{Id}")]
         public async Task<IActionResult> GetUserByIDAsync([FromRoute] int Id)
@@ -69,7 +64,7 @@ namespace UserAuthenticationApplication.Web.Controllers
         *  }
         */
         [HttpPost("user")]
-        public async Task<IActionResult> AddUserAsync([FromForm] UserRagistrationDetail user)
+        public async Task<IActionResult> AddUserAsync([FromForm] UserRagistrationDetailDTO user)
         {
             var result = await _userRegistration.AddUserAsync(user);
 
@@ -80,18 +75,18 @@ namespace UserAuthenticationApplication.Web.Controllers
             return Ok("Added Successfully");
         }
         /**
-         * @api {put} /employee/ Modify User information
+         * @api {put} /UserController/ Modify User information
          * @apiName UpdateEmployeeAsync
          * @apiGroup UserRagistration
          *
-         * @apiParam {Number} id          User unique ID.
+         * @apiParam {Number} id        User unique ID.
          * @apiParam {String} UserName  UserName of the User.
          * @apiParam {String} Password  Password of the User.
          *
          * @apiUse EmployeeIDNotFoundError
          */
         [HttpPut("userupdate")]
-        public async Task<ActionResult> UpdateEmployeeAsync([FromForm] UserRagistrationDetail user)
+        public async Task<ActionResult> UpdateEmployeeAsync([FromForm] UserRagistrationDetailDTO user)
         {
             if (user.UserId != user.UserId)
             {
@@ -101,8 +96,8 @@ namespace UserAuthenticationApplication.Web.Controllers
             return Ok("Update Successfully");
         }
         /**
-        * @api {put} /UserRagistration/ Modify User Active or Inactive
-        * @apiName RemoveSoftdeleteAsync
+        * @api {put} /UserController/ Modify User Active or Inactive.
+        * @apiName RemoveUserAsync
         * @apiGroup UserRagistration
         *
         * @apiParam {Number} id User unique ID.
@@ -113,9 +108,9 @@ namespace UserAuthenticationApplication.Web.Controllers
         *  }
         */
         [HttpPut("removeuser/{Id}")]
-        public async Task<ActionResult> RemoveSoftdeleteAsync(int Id)
+        public async Task<ActionResult> RemoveUserAsync(int Id)
         {
-            await _userRegistration.RemoveSoftdeleteAsync(Id);
+            await _userRegistration.RemoveUserAsync(Id);
             return Ok("Remove Successfully");
         }
         #endregion

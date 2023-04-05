@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistration;
-using UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail;
 
 namespace UserAuthenticationApplication.Repository.Login
 {

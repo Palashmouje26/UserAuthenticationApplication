@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UserAuthenticationApplication.DomainModel.Models.LoginDetails;
+using UserAuthenticationApplication.DomainModel.ApplicationClass.DTO.LoginDTO;
 using UserAuthenticationApplication.DomainModel.Models.UserHistory;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistration;
-using UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail;
 using UserAuthenticationApplication.Repository.DataRepository;
 using UserAuthenticationApplication.Repository.User;
 
@@ -17,8 +14,8 @@ namespace UserAuthenticationApplication.Repository.Login
 {
     public class LoginRepository : ILoginRepository
     {
-        #region Private Method
-        private readonly IUserRegistrationRepository _userRegistrationRepository;
+
+        #region Private Methods
         private readonly IDataRepository _dataRepository;
         private readonly IMapper _mapper;
         #endregion
@@ -33,25 +30,25 @@ namespace UserAuthenticationApplication.Repository.Login
 
         #region Public Methods
         /// <summary>
-        /// API to get All User details at a time
+        /// API to get All User details at a time.
         /// </summary>
-        /// <param name="userId">userId of the current user</param>
+        /// <param name="userId">userId of the current user.</param>
         /// <returns>object return</returns>
-        public async Task<List<LoginDetail>> GetUserSpecificDetailsAsync(int userId)
+        public async Task<List<LoginDetailDTO>> GetUserSpecificDetailsAsync(int userId)
         {
             var userDetails = await _dataRepository.Where<Login>(a => a.UserId == userId).AsNoTracking().ToListAsync();
-            return _mapper.Map<List<Login>, List<LoginDetail>>(userDetails);
+            return _mapper.Map<List<Login>, List<LoginDetailDTO>>(userDetails);
 
         }
 
         /// <summary>
-        /// Adding and Checking User Validdate Or not If Valid Then store in data
+        /// Adding and Checking User Validdate Or not If Valid Then store in data.
         /// </summary>
-        /// <param name="emailId">Current User emailID</param>
-        /// <param name="passcode">Current user Password</param>
-        /// <returns>User Valid or not retrun  </returns>
+        /// <param name="emailId">Current User emailID.</param>
+        /// <param name="passcode">Current user Password.</param>
+        /// <returns>User Valid or not retrun.</returns>
 
-        public async Task<LoginDetail> AddloginUserAsync(string emailId, string passcode)
+        public async Task<LoginDetailDTO> AddloginUserAsync(string emailId, string passcode)
         {
             Login loginDetail = new Login();
             loginDetail.LoginHistory = DateTime.Now;
@@ -70,14 +67,14 @@ namespace UserAuthenticationApplication.Repository.Login
                 loginDetail.IsValidate = false;
             }
             await _dataRepository.AddAsync(loginDetail);
-            return _mapper.Map<LoginDetail>(loginDetail);
+            return _mapper.Map<LoginDetailDTO>(loginDetail);
 
         }
 
         /// <summary>
-        /// list show user login details and last login time
+        /// Show user login details and last login time.
         /// </summary>
-        /// <param name="userId"> userId is user for current user </param>
+        /// <param name="userId"> userId is user for current user.</param>
         /// <returns>User List</returns>
         public async Task<UserHistory> GetUserCountAsync(int userId)
         {
@@ -107,27 +104,26 @@ namespace UserAuthenticationApplication.Repository.Login
 
         #region Private Method
         /// <summary>
-        /// Method  create for getiing last login time
+        /// Method  create for getiing last login time.
         /// </summary>
-        /// <param name="loginHistory"></param>
-        /// <param name="userId">userId for login history</param>
+        /// <param name="userId">userId for login history.</param>
         /// <returns> return object</returns>
         private DateTime? GetUserHistory(List<Login> loginHistory, int userId)
         {
             var loginDetail = loginHistory.Where(a => a.UserId == userId);
-            var lastSUccess = loginDetail.Where(a => a.IsValidate).OrderBy(a => a.LoginHistory);
-            if (lastSUccess.Count() == 0)
+            var lastSuccess = loginDetail.Where(a => a.IsValidate).OrderBy(a => a.LoginHistory);
+            if (lastSuccess.Count() == 0)
             {
                 return null;
             }
-            return lastSUccess.First().LoginHistory;
+            return lastSuccess.First().LoginHistory;
         }
 
 
         /// <summary>
-        ///  Method  create for getiing login history 
+        ///  Method  create for getiing login history.
         /// </summary>
-        /// <param name="userId">userId for login history</param>
+        /// <param name="userId">userId for login history.</param>
         /// <returns> return object</returns>
         private async Task<UserHistory> GetUserHistory(int userId)
         {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace UserAuthenticationApplication.DomainModel.Models.LoginDetails
+namespace UserAuthenticationApplication.DomainModel.ApplicationClass.DTO.LoginDTO
 {
-    public class LoginDetail
+    public class LoginDetailDTO
     {
         public int LoginId { get; set; }
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail
+namespace UserAuthenticationApplication.DomainModel.ApplicationClass.DTO.UserRagistrationDTO
 {
-    public class UserRagistrationDetail
+    public class UserRagistrationDetailDTO
     {
         public int UserId { get; set; }
 

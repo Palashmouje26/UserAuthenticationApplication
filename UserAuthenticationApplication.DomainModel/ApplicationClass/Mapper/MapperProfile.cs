@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UserAuthenticationApplication.DomainModel.Models.LoginDetails;
+using UserAuthenticationApplication.DomainModel.ApplicationClass.DTO.LoginDTO;
+using UserAuthenticationApplication.DomainModel.ApplicationClass.DTO.UserRagistrationDTO;
 using UserAuthenticationApplication.DomainModel.Models.UserHistory;
 using UserAuthenticationApplication.DomainModel.Models.UserRegistration;
-using UserAuthenticationApplication.DomainModel.Models.UserRegistrationDetail;
 using UserAuthenticationApplication.Repository.Login;
 
 namespace UserAuthenticationApplication.DomainModel.ApplicationClass.Mapper
@@ -14,10 +11,10 @@ namespace UserAuthenticationApplication.DomainModel.ApplicationClass.Mapper
     {
         public MapperProfile()
         {
-            CreateMap< UserRagistrationDetail, UserRegistration>().ReverseMap();
-            CreateMap< UserRegistration , UserRagistrationDetail>().ReverseMap();
-            CreateMap<LoginDetail, Login>().ReverseMap();
-            CreateMap<Login , LoginDetail>().ReverseMap();  
+            CreateMap<UserRagistrationDetailDTO, UserRegistration>().ReverseMap();
+            CreateMap< UserRegistration , UserRagistrationDetailDTO>().ReverseMap();
+            CreateMap<LoginDetailDTO, Login>().ReverseMap();
+            CreateMap<Login , LoginDetailDTO>().ReverseMap();  
             CreateMap<UserRegistration,UserHistory>().ReverseMap();
             
         }
