@@ -52,7 +52,7 @@ namespace UserAuthenticationApplication.Web.Controllers
        * @apiParam {Number}  userId of the User.
        * @apiError UserNotFound The id of the UserId was not found.
        */
-        [HttpGet("getuserspecificdetails")]
+        [HttpGet("userspecificdetails")]
         public async Task<IActionResult> GetUserSpecificDetailsAsync(int userId)
         {
             var response = await _loginRepository.GetUserSpecificDetailsAsync (userId);
@@ -73,7 +73,7 @@ namespace UserAuthenticationApplication.Web.Controllers
        * @apiParam {Number}  Id of the User.
        * @apiError UserNotFound The id of the UserId was not found.
        */
-        [HttpGet("getusercountdetail")]
+        [HttpGet("usercountdetail")]
         public async Task<IActionResult> GetUserCountDetailAsync(int userId)
         {
             var response = await _loginRepository.GetUserCountAsync(userId);
@@ -86,7 +86,7 @@ namespace UserAuthenticationApplication.Web.Controllers
        *    
        * @apiError UserNotFound .
        */
-        [HttpGet("getallusercountdetail")]
+        [HttpGet("allusercountdetail")]
         public async Task<IActionResult> GetAllUserCountDetail()
         {
             var response = await _loginRepository.GetAllUserCountAsync();
