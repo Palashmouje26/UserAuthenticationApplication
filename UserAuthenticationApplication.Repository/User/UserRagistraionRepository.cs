@@ -60,19 +60,15 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
         }
 
         /// <summary>
-        /// Updating Email and Passwords.
+        /// Updating user detials.
         /// </summary>
         /// <param name="User">Current UserId Is used</param>
         /// <returns>updating User information</returns>
         public async Task<UserRagistrationDetailDTO> UpdateUserAsync(UserRagistrationDetailDTO User)
         {
             var userDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == User.UserId);
-
-            userDetail.UserName = User.UserName;
-            userDetail.EmailId = User.EmailId;
-            userDetail.Password = User.Password;
-
-            await _dataRepository.UpdateAsync(userDetail);
+            var response = _mapper.Map<UserRagistrationDetailDTO, UserRegistration>(User, userDetail);
+            await _dataRepository.UpdateAsync(response);
             return _mapper.Map<UserRagistrationDetailDTO>(userDetail);
         }
 
@@ -80,11 +76,19 @@ namespace UserAuthenticationApplication.Repository.UserRagistraionRepository
         /// De_activate User through UserId.
         /// </summary>
         /// <param name="UserId">Current Using UserID.</param>
-        /// <returns></returns>
+        /// <returns> return object</returns>
         public async Task RemoveUserAsync(int UserId)
         {
-            var userDetail = await _dataRepository.FirstAsync<UserRegistration>(a => a.UserId == UserId);
-            userDetail.IsDeletd = true;
+            var userDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(a => a.UserId == UserId);
+
+            if (userDetail != null)
+            {
+                userDetail.IsDeletd = false;
+            }
+            else
+            {
+                throw new Exception("User Not Exits");
+            }
             await _dataRepository.UpdateAsync(userDetail);
         }
         #endregion

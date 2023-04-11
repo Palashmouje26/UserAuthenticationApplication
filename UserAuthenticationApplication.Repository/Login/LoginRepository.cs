@@ -30,7 +30,7 @@ namespace UserAuthenticationApplication.Repository.Login
 
         #region Public Methods
         /// <summary>
-        /// API to get All User details at a time.
+        ///  List of  All User details at a time.
         /// </summary>
         /// <param name="userId">userId of the current user.</param>
         /// <returns>object return</returns>
@@ -45,15 +45,15 @@ namespace UserAuthenticationApplication.Repository.Login
         /// Adding and Checking User Validdate Or not If Valid Then store in data.
         /// </summary>
         /// <param name="emailId">Current User emailID.</param>
-        /// <param name="passcode">Current user Password.</param>
+        /// <param name="password">Current user Password.</param>
         /// <returns>User Valid or not retrun.</returns>
 
-        public async Task<LoginDetailDTO> AddloginUserAsync(string emailId, string passcode)
+        public async Task<LoginDetailDTO> AddloginUserAsync(string emailId, string password)
         {
             Login loginDetail = new Login();
             loginDetail.LoginHistory = DateTime.Now;
 
-            var userDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(authUser => authUser.EmailId.Equals(emailId) && authUser.Password.Equals(passcode));
+            var userDetail = await _dataRepository.FirstOrDefaultAsync<UserRegistration>(authUser => authUser.EmailId.Equals(emailId) && authUser.Password.Equals(password));
 
             if (userDetail != null)
             {
@@ -82,9 +82,9 @@ namespace UserAuthenticationApplication.Repository.Login
         }
 
         /// <summary>
-        /// List to show all the users count of login and last lagin
+        /// List to show all the users count of login and last lagin.
         /// </summary>
-        /// <returns>List return</returns>
+        /// <returns>List return.</returns>
         public async Task<List<UserHistory>> GetAllUserCountAsync()
         {
             var userList = await _dataRepository.GetAllAsync<UserRegistration>();

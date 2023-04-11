@@ -31,7 +31,7 @@ namespace UserAuthenticationApplication
         {
             services.AddControllers();
             services.AddScoped<IDataRepository, DataRepository>();
-            services.AddScoped<IUserRegistrationRepository, UserRagistraionRepository>();
+            services.AddScoped<IUserRegistrationRepository, UserRegistraionRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddDbContext<UserDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddSwaggerGen(options =>

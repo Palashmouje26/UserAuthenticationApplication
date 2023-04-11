@@ -34,7 +34,7 @@ namespace UserAuthenticationApplication.Web.Controllers
         *  }
       */
         [HttpPost("adduserlogin")]
-        public async Task<IActionResult> AddLoginByNameAsync(string emailId, string passcode)
+        public async Task<IActionResult> AddLoginAsync(string emailId, string passcode)
         {
             var result = await _loginRepository.AddloginUserAsync(emailId, passcode);
 
